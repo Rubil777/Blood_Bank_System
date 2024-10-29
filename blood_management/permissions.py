@@ -1,34 +1,18 @@
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from .models import Donor, BloodInventory, BloodRequest
-from .serializer import DonorSerializer, BloodInventorySerializer, BloodRequestSerializer
-from .permissions import IsAdminUser, IsRegularUser
+from rest_framework import permissions
 
-# Donor Management View (Admin Only)
-class DonorManagementView(APIView):
-    permission_classes = [IsAuthenticated, IsAdminUser]  # Only admin users can access this view
+class IsAdminUser(permissions.BasePermission):
+    """
+    Custom permission to allow only admin (staff) users to manage donors and inventory.
+    """
+    def has_permission(self, request, view):
+        # Only allows access if the user is authenticated and is marked as staff (admin)
+        return request.user and request.user.is_staff
 
-    def get(self, request):
-        # Logic for retrieving donors (admin-only)
-        return Response({"message": "Retrieve donor list (admin-only)"})
 
-    def post(self, request):
-        # Logic for adding a new donor (admin-only)
-        return Response({"message": "Add a new donor (admin-only)"})
-
-    def put(self, request, pk=None):
-        # Logic for updating donor details (admin-only)
-        return Response({"message": f"Update donor with id {pk} (admin-only)"})
-
-    def delete(self, request, pk=None):
-        # Logic for deleting a donor (admin-only)
-        return Response({"message": f"Delete donor with id {pk} (admin-only)"})
-
-# Blood Request View (Regular Users Only)
-class BloodRequestView(APIView):
-    permission_classes = [IsAuthenticated, IsRegularUser]  # Only regular users can access this view
-
-    def post(self, request):
-        # Logic for requesting blood (regular user)
-        return Response({"message": "Request blood (regular user)"})
+class IsRegularUser(permissions.BasePermission):
+    """
+    Custom permission to allow only regular (non-staff) users to request blood.
+    """
+    def has_permission(self, request, view):
+        # Only allows access if the user is authenticated and is NOT staff (admin)
+        return request.user and not request.user.is_staff
