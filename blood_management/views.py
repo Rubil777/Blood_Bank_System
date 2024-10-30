@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework import generics, status, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from .models import Donor, BloodInventory, BloodRequest
-from blood_management.serializer import DonorSerializer, BloodInventorySerializer, BloodRequestSerializer
+from .serializer import DonorSerializer, BloodInventorySerializer, BloodRequestSerializer, UserRegistrationSerializer
 from .permissions import IsAdminUser, IsRegularUser
 
 # Donor Management (Admin Only)
@@ -11,7 +12,8 @@ class DonorListCreateView(generics.ListCreateAPIView):
     queryset = Donor.objects.all()
     serializer_class = DonorSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
-
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['blood_type', 'last_donation_date']  # Filter by blood type and last donation date
 
 class DonorDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Donor.objects.all()
@@ -54,3 +56,15 @@ class BloodRequestAdminListView(generics.ListAPIView):
     queryset = BloodRequest.objects.all()
     serializer_class = BloodRequestSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['blood_type', 'status']  # Filter by blood type and status
+
+
+class UserRegistrationView(APIView):
+    def post(self, request):
+        serializer = UserRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    

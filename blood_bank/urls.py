@@ -11,7 +11,8 @@ from django.urls import path
 from blood_management.views import (
     DonorListCreateView, DonorDetailView,
     BloodInventoryListCreateView, BloodInventoryDetailView,
-    BloodRequestListCreateView, BloodRequestAdminListView
+    BloodRequestListCreateView, BloodRequestAdminListView,
+    UserRegistrationView
 )
 
 def home_view(request):
@@ -22,6 +23,7 @@ urlpatterns = [
     path('', home_view),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/register/', UserRegistrationView.as_view(), name='register'),
 
     # Donor URLs (Admins)
     path('api/donors/', DonorListCreateView.as_view(), name='donor_list_create'),
