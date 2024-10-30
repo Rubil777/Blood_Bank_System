@@ -20,7 +20,7 @@ def check_low_inventory():
             'Critical Blood Inventory Alert',
             f'The following blood types are below critical levels: {blood_types}. Please replenish soon.',
             settings.DEFAULT_FROM_EMAIL,
-            ['admin@example.com'],  # Replace with actual recipient email(s)
+            ['placeholder@example.com'],  # Placeholder email since local testing
         )
 
 # Donor Management (Admin Only)
