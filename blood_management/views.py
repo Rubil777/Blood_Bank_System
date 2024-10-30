@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
 from rest_framework import generics, status, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -7,19 +9,32 @@ from .models import Donor, BloodInventory, BloodRequest
 from .serializer import DonorSerializer, BloodInventorySerializer, BloodRequestSerializer, UserRegistrationSerializer
 from .permissions import IsAdminUser, IsRegularUser
 
+# Function to check low inventory and send email notifications
+def check_low_inventory():
+    critical_level = 5  # Set threshold for low inventory
+    low_inventory = BloodInventory.objects.filter(units_available__lt=critical_level)
+
+    if low_inventory.exists():
+        blood_types = ', '.join([inventory.blood_type for inventory in low_inventory])
+        send_mail(
+            'Critical Blood Inventory Alert',
+            f'The following blood types are below critical levels: {blood_types}. Please replenish soon.',
+            settings.DEFAULT_FROM_EMAIL,
+            ['admin@example.com'],  # Replace with actual recipient email(s)
+        )
+
 # Donor Management (Admin Only)
 class DonorListCreateView(generics.ListCreateAPIView):
     queryset = Donor.objects.all()
     serializer_class = DonorSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['blood_type', 'last_donation_date']  # Filter by blood type and last donation date
+    search_fields = ['name', 'blood_type', 'contact_info', 'last_donation_date']
 
 class DonorDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Donor.objects.all()
     serializer_class = DonorSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
-
 
 # Blood Inventory Management (Admin Only)
 class BloodInventoryListCreateView(generics.ListCreateAPIView):
@@ -28,15 +43,17 @@ class BloodInventoryListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def perform_create(self, serializer):
-        # Custom logic, if needed, can be added here before saving
         serializer.save()
-
+        check_low_inventory()  # Check levels after creating a new inventory entry
 
 class BloodInventoryDetailView(generics.RetrieveUpdateAPIView):
     queryset = BloodInventory.objects.all()
     serializer_class = BloodInventorySerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
 
+    def perform_update(self, serializer):
+        serializer.save()
+        check_low_inventory()  # Check levels after updating inventory
 
 # Blood Requests (Regular Users Only)
 class BloodRequestListCreateView(generics.ListCreateAPIView):
@@ -44,22 +61,19 @@ class BloodRequestListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, IsRegularUser]
 
     def get_queryset(self):
-        # Filter requests to show only those made by the current user
         return BloodRequest.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        # Automatically set the user making the request
         serializer.save(user=self.request.user)
-
 
 class BloodRequestAdminListView(generics.ListAPIView):
     queryset = BloodRequest.objects.all()
     serializer_class = BloodRequestSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['blood_type', 'status']  # Filter by blood type and status
+    search_fields = ['blood_type', 'status']
 
-
+# User Registration View
 class UserRegistrationView(APIView):
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
@@ -67,4 +81,5 @@ class UserRegistrationView(APIView):
             serializer.save()
             return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
