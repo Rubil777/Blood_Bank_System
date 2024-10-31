@@ -77,6 +77,8 @@ class BloodRequestTest(APITestCase):
         # Authenticate as regular user
         refresh = RefreshToken.for_user(self.regular_user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
+        self.inventory = BloodInventory.objects.create(blood_type="A+", units_available=10)
+
 
     def test_create_blood_request(self):
         response = self.client.post("/api/requests/", {
