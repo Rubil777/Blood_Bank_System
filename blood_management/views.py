@@ -92,27 +92,21 @@ class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
     permission_classes = [IsAdminUser]
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', True)
         instance = self.get_object()
+        print("Accessed BloodRequest ID:", instance.id)  # Debugging output
 
         # Get the new status from the request data
         new_status = request.data.get("status")
 
-        # Check if status is being changed to "Fulfilled"
+        # Only proceed if changing status to "Fulfilled" and inventory allows it
         if new_status == "Fulfilled" and instance.status != "Fulfilled":
-            # Retrieve corresponding inventory item
             inventory_item = get_object_or_404(BloodInventory, blood_type=instance.blood_type)
-
-            # Check if enough units are available
             if inventory_item.units_available < instance.units_requested:
                 raise ValidationError("Not enough units available in inventory to fulfill this request.")
 
-            # Deduct the units requested from inventory
             inventory_item.units_available -= instance.units_requested
             inventory_item.save()
+            check_low_inventory()
 
-            # Run the low inventory check after adjusting inventory
-            check_low_inventory()  # Ensure low inventory is checked
-
-        # Proceed with the update
+        # Perform a full update, removing the partial option
         return super().update(request, *args, **kwargs)

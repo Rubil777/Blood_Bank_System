@@ -89,15 +89,23 @@ class BloodRequestTest(APITestCase):
     def test_admin_fulfill_request(self):
         # Create a request as a regular user
         request = BloodRequest.objects.create(
-            user=self.regular_user, blood_type="A+", units_requested=2, status="Pending"
+        user=self.regular_user, blood_type="A+", units_requested=2, status="Pending"
         )
-        
+    
+        print("Created BloodRequest ID:", request.id)  # Debugging output
+
         # Re-authenticate as admin for fulfilling the request
         refresh = RefreshToken.for_user(self.admin_user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
-        
-        # Admin fulfills the request
+
+        url = f"/api/admin/requests/{request.id}/"
+        print("PUT Request URL:", url)
+    
+        # Make the PUT request as admin
         response = self.client.put(f"/api/admin/requests/{request.id}/", {"status": "Fulfilled"})
+        print("Response status code:", response.status_code)  # Debugging output
+        print("Response data:", response.data)  # Check for any error details in response
+    
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         request.refresh_from_db()
         self.assertEqual(request.status, "Fulfilled")

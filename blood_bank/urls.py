@@ -37,4 +37,5 @@ urlpatterns = [
     path('api/requests/', BloodRequestListCreateView.as_view(), name='request_list_create'),
     path('api/admin/requests/', BloodRequestAdminListView.as_view(), name='admin_request_list'),
     path('api/admin/requests/<int:pk>/', BloodRequestAdminDetailView.as_view(), name='admin_request_detail'),
+
 ]

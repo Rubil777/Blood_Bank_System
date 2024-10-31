@@ -23,7 +23,6 @@ class BloodRequestSerializer(serializers.ModelSerializer):
 
     blood_type = serializers.CharField(required=True)  # Ensure required fields
     units_requested = serializers.IntegerField(required=True)
-    status = serializers.ChoiceField(choices=BloodRequest.REQUEST_STATUS) #not sure
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
