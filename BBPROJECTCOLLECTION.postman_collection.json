@@ -1,0 +1,525 @@
+{
+	"info": {
+		"_postman_id": "d55306f7-af3c-49f2-bae4-984962be55c4",
+		"name": "BBPROJECTCOLLECTION",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39373231"
+	},
+	"item": [
+		{
+			"name": "LOGIN ADMIN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lenovo\",\r\n  \"password\": \"GODISGOD\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN REGULAR",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"REGULAR\",\r\n  \"password\": \"7DRAGONBALLS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONORLIST",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg1NTc5LCJpYXQiOjE3MzAzODUyNzksImp0aSI6IjJjZGVhYmMzMzBjMjRiMTk4MzA5NGExNWFmNzdkNGIxIiwidXNlcl9pZCI6Mn0.uu7UNa_UJnkXuwqyCITq9Vxs8ahSfQ4moUF-k3dr0jo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lenovo\",\r\n  \"password\": \"GODISGOD\",\r\n  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/donors/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"donors",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DONORCREATE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg1OTE1LCJpYXQiOjE3MzAzODU2MTUsImp0aSI6Ijc3ZWZmN2Q5MDYwODRhMzM5YzI2N2ZiMmEyMzljYzY2IiwidXNlcl9pZCI6Mn0.cYnyMSzxgfir-N4bEI56JcEUmhy9-PMvN1AwtftcuHY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lenovo\",\r\n  \"password\": \"GODISGOD\",\r\n  \"name\": \"John Da Foe\",\r\n  \"blood_type\": \"A-\",\r\n  \"contact_info\": \"1234567890\",\r\n  \"last_donation_date\": \"2024-03-11\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/donors/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"donors",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INVENTORYLIST",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg1OTE1LCJpYXQiOjE3MzAzODU2MTUsImp0aSI6Ijc3ZWZmN2Q5MDYwODRhMzM5YzI2N2ZiMmEyMzljYzY2IiwidXNlcl9pZCI6Mn0.cYnyMSzxgfir-N4bEI56JcEUmhy9-PMvN1AwtftcuHY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lenovo\",\r\n  \"password\": \"GODISGOD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/inventory/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"inventory",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INVENTORYCREATE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg2Mjk4LCJpYXQiOjE3MzAzODU5OTgsImp0aSI6ImFjMDU4ODhkMTMxNTRhMWE4NTFkMTk0YzA5NmY0NjAzIiwidXNlcl9pZCI6Mn0.NuCnLJ4d_PYuiOZ0rFAWMnlOhUSKQXEHhfhIgjeuDDo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lenovo\",\r\n  \"password\": \"GODISGOD\",\r\n  \"blood_type\": \"A-\",\r\n  \"units_available\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/inventory/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"inventory",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INVENTORYUPDATE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg2Mjk4LCJpYXQiOjE3MzAzODU5OTgsImp0aSI6ImFjMDU4ODhkMTMxNTRhMWE4NTFkMTk0YzA5NmY0NjAzIiwidXNlcl9pZCI6Mn0.NuCnLJ4d_PYuiOZ0rFAWMnlOhUSKQXEHhfhIgjeuDDo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lenovo\",\r\n  \"password\": \"GODISGOD\",\r\n  \"blood_type\": \"B-\",\r\n  \"units_available\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/inventory/5/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"inventory",
+						"5",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BLOODREQCREATE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg3MDU3LCJpYXQiOjE3MzAzODY3NTcsImp0aSI6IjA2ZjgwNTYwYTU3NzQzYzZhYWRjZjgzM2Q3ZTQ3YjNiIiwidXNlcl9pZCI6NH0.IXt2RHhoWLAfkIEtZOO9c_W-PJdaZhGWaE06INApEyE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"REGULAR\",\r\n  \"password\": \"7DRAGONBALLS\",\r\n  \"blood_type\": \"AB+\",\r\n  \"units_requested\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/requests/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"requests",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BLOODREQSTATUSBEFOREUPDATE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg3MDU3LCJpYXQiOjE3MzAzODY3NTcsImp0aSI6IjA2ZjgwNTYwYTU3NzQzYzZhYWRjZjgzM2Q3ZTQ3YjNiIiwidXNlcl9pZCI6NH0.IXt2RHhoWLAfkIEtZOO9c_W-PJdaZhGWaE06INApEyE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"REGULAR\",\r\n  \"password\": \"7DRAGONBALLS\",\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/requests/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"requests",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BLOODREQSTATUSAFTERUPDATE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg3MDU3LCJpYXQiOjE3MzAzODY3NTcsImp0aSI6IjA2ZjgwNTYwYTU3NzQzYzZhYWRjZjgzM2Q3ZTQ3YjNiIiwidXNlcl9pZCI6NH0.IXt2RHhoWLAfkIEtZOO9c_W-PJdaZhGWaE06INApEyE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"REGULAR\",\r\n  \"password\": \"7DRAGONBALLS\",\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/requests/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"requests",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BLOODREQLIST",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg2NzI0LCJpYXQiOjE3MzAzODY0MjQsImp0aSI6IjZhZGJiOTg1OWY5ZTQ2ZjE5YmIzNjQzMGI1Y2E4ZTZkIiwidXNlcl9pZCI6Mn0.qRsMp2dIDqhm6wkYCvwph0Qkx19zyZdEqf2vNioXLug",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lenovo\",\r\n  \"password\": \"GODISGOD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/requests/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"requests",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADMINBLOODREQUPDATE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMzg3MTk5LCJpYXQiOjE3MzAzODY4OTksImp0aSI6IjA3YzgyZDk2ZjliOTQ3OWY5Nzg5ZjMyN2Q4NjAwYzQ1IiwidXNlcl9pZCI6Mn0.ehJqS1S4Kg_zHG-2mVxLGQrDC9bf0tRH8tsRtIs_Ils",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"lenovo\",\r\n  \"password\": \"GODISGOD\",\r\n  \"status\": \"Fulfilled\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/admin/requests/3/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"admin",
+						"requests",
+						"3",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
