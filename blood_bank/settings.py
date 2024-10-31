@@ -134,5 +134,14 @@ REST_FRAMEWORK = {
         'PAGE_SIZE': 10
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#Local Email Testing for Low_Inventory Check
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 
+#Using SMTP gmail server email testing for Low_Inventory Check
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your_gmail_account@gmail.com'  # Replace with actual Gmail account
+# EMAIL_HOST_PASSWORD = 'your_gmail_password'  # Replace with Gmail app-specific password
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

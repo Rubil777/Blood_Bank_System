@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from django.urls import reverse
@@ -29,6 +30,11 @@ class DonorManagementTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.admin_user = User.objects.create_superuser(username="admin", password="adminpass")
+        #Log in and get the Refresh Token
+        refresh = RefreshToken.for_user(self.admin_user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
+        
+        self.inventory = BloodInventory.objects.create(blood_type="A+", units_available=10)
         self.client.login(username="admin", password="adminpass")
 
     def test_create_donor(self):
@@ -50,6 +56,9 @@ class BloodInventoryTest(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.admin_user = User.objects.create_superuser(username="admin", password="adminpass")
+
+        #Log in and get the Refresh Token
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
         self.client.login(username="admin", password="adminpass")
         self.inventory = BloodInventory.objects.create(blood_type="A+", units_available=10)
 

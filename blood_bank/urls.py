@@ -11,7 +11,7 @@ from django.urls import path
 from blood_management.views import (
     DonorListCreateView, DonorDetailView,
     BloodInventoryListCreateView, BloodInventoryDetailView,
-    BloodRequestAdminDetailView, BloodRequestAdminListView,
+    BloodRequestAdminListView,
     UserRegistrationView,BloodRequestAdminDetailView
 )
 
