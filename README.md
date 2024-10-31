@@ -98,7 +98,7 @@ This project is a RESTful API for a Blood Bank Management System, built using Dj
    test.py includes tests for authentication, donor management, blood inventory management, and blood requests.
 
 ## Postman Collection
-     **To test the API with Postman**:
+     To test the API with Postman:
      - Import the Postman collection provided with this project.
      - Set the base URL for your local server (e.g., http://127.0.0.1:8000/).
      - Use JWT authentication: Obtain a token from /api/token/ and set it in the Authorization header as Bearer <token>.
