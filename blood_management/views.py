@@ -97,15 +97,31 @@ class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
 
         # Get the new status from the request data
         new_status = request.data.get("status")
+        print(f"New status from request data: {new_status}")  # Debugging output
 
         # Only proceed if changing status to "Fulfilled" and inventory allows it
         if new_status == "Fulfilled" and instance.status != "Fulfilled":
+            print("Attempting to fulfill the request...")  # Debugging output
             inventory_item = get_object_or_404(BloodInventory, blood_type=instance.blood_type)
+        
             if inventory_item.units_available < instance.units_requested:
+                print("Not enough units available in inventory.")  # Debugging output
                 raise ValidationError("Not enough units available in inventory to fulfill this request.")
 
+            # Update inventory
             inventory_item.units_available -= instance.units_requested
             inventory_item.save()
+
+            # Update the status of the BloodRequest instance
+            instance.status = "Fulfilled"
+            instance.save()  # Ensure the instance is saved with the new status
+        
             check_low_inventory()
 
-        return super().update(request, *args, **kwargs)
+        # Allow partial updates
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+

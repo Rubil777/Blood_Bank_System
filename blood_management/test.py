@@ -77,10 +77,12 @@ class BloodRequestTest(APITestCase):
         # Authenticate as regular user
         refresh = RefreshToken.for_user(self.regular_user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
+        
+        # Create an inventory item for testing
         self.inventory = BloodInventory.objects.create(blood_type="A+", units_available=10)
 
-
     def test_create_blood_request(self):
+        # Test creating a blood request
         response = self.client.post("/api/requests/", {
             "blood_type": "A+",
             "units_requested": 2
@@ -89,11 +91,14 @@ class BloodRequestTest(APITestCase):
         self.assertEqual(response.data["status"], "Pending")
 
     def test_admin_fulfill_request(self):
-        # Create a request as a regular user
+        # Create a blood request as a regular user
         request = BloodRequest.objects.create(
-        user=self.regular_user, blood_type="A+", units_requested=2, status="Pending"
+            user=self.regular_user,
+            blood_type="A+",
+            units_requested=2,
+            status="Pending"
         )
-    
+        
         print("Created BloodRequest ID:", request.id)  # Debugging output
 
         # Re-authenticate as admin for fulfilling the request
@@ -102,12 +107,15 @@ class BloodRequestTest(APITestCase):
 
         url = f"/api/admin/requests/{request.id}/"
         print("PUT Request URL:", url)
-    
-        # Make the PUT request as admin
-        response = self.client.put(f"/api/admin/requests/{request.id}/", {"status": "Fulfilled"})
+
+        # Make the PUT request as admin to fulfill the blood request
+        response = self.client.put(url, {"status": "Fulfilled"})
         print("Response status code:", response.status_code)  # Debugging output
         print("Response data:", response.data)  # Check for any error details in response
-    
+
+        # Assert that the response is successful
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Reload the blood request instance from the database
         request.refresh_from_db()
-        self.assertEqual(request.status, "Fulfilled")
+        self.assertEqual(request.status, "Fulfilled")  # Verify that the status has been updated
