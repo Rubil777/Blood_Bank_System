@@ -39,20 +39,20 @@ This project is a RESTful API for a Blood Bank Management System, built using Dj
    pip install -r requirements.txt
 
 4. **Set up environment variables for email notifications (if using Gmail SMTP)**:
-   '''bash
-   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+   
+     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-   EMAIL_HOST = 'smtp.gmail.com'
+     EMAIL_HOST = 'smtp.gmail.com'
 
-   EMAIL_PORT = 587
+     EMAIL_PORT = 587
 
-   EMAIL_USE_TLS = True
+     EMAIL_USE_TLS = True
 
-   EMAIL_HOST_USER = 'your-email@gmail.com'
+     EMAIL_HOST_USER = 'your-email@gmail.com'
 
-   EMAIL_HOST_PASSWORD = 'your-email-password'
+     EMAIL_HOST_PASSWORD = 'your-email-password'
 
-   DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
+     DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
 
 
    For local testing only email backend is set up
