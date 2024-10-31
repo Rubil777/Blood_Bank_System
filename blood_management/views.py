@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework import generics, status, filters
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -82,4 +83,8 @@ class UserRegistrationView(APIView):
             return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    
+
+class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
+    queryset = BloodRequest.objects.all()
+    serializer_class = BloodRequestSerializer
+    permission_classes = [IsAdminUser]
