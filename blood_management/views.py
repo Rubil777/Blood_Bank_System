@@ -93,7 +93,6 @@ class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        print("Accessed BloodRequest ID:", instance.id)  # Debugging output
 
         # Get the new status from the request data
         new_status = request.data.get("status")
@@ -108,13 +107,12 @@ class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
                 print("Not enough units available in inventory.")  # Debugging output
                 raise ValidationError("Not enough units available in inventory to fulfill this request.")
 
-            # Update inventory
             inventory_item.units_available -= instance.units_requested
             inventory_item.save()
 
             # Update the status of the BloodRequest instance
             instance.status = "Fulfilled"
-            instance.save()  # Ensure the instance is saved with the new status
+            instance.save()
         
             check_low_inventory()
 
