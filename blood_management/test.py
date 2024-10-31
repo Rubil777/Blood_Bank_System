@@ -99,19 +99,18 @@ class BloodRequestTest(APITestCase):
             status="Pending"
         )
         
-        print("Created BloodRequest ID:", request.id)  # Debugging output
+        #print("Created BloodRequest ID:", request.id)  # Debugging output
 
         # Re-authenticate as admin for fulfilling the request
         refresh = RefreshToken.for_user(self.admin_user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
 
         url = f"/api/admin/requests/{request.id}/"
-        print("PUT Request URL:", url)
 
         # Make the PUT request as admin to fulfill the blood request
         response = self.client.put(url, {"status": "Fulfilled"})
-        print("Response status code:", response.status_code)  # Debugging output
-        print("Response data:", response.data)  # Check for any error details in response
+        #print("Response status code:", response.status_code)  # Debugging output
+        #print("Response data:", response.data)  # Check for any error details in response
 
         # Assert that the response is successful
         self.assertEqual(response.status_code, status.HTTP_200_OK)
