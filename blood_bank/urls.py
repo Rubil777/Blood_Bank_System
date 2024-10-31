@@ -11,7 +11,7 @@ from django.urls import path
 from blood_management.views import (
     DonorListCreateView, DonorDetailView,
     BloodInventoryListCreateView, BloodInventoryDetailView,
-    BloodRequestAdminListView,
+    BloodRequestAdminListView, BloodRequestListCreateView,
     UserRegistrationView,BloodRequestAdminDetailView
 )
 
@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/inventory/<int:pk>/', BloodInventoryDetailView.as_view(), name='inventory_detail'),
 
     # Blood Request URLs (Regular Users and Admins)
+    path('api/requests/', BloodRequestListCreateView.as_view(), name='request_list_create'),
     path('api/admin/requests/', BloodRequestAdminListView.as_view(), name='admin_request_list'),
     path('api/admin/requests/<int:pk>/', BloodRequestAdminDetailView.as_view(), name='admin_request_detail'),
 ]

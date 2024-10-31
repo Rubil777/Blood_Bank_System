@@ -62,7 +62,7 @@ class BloodInventoryTest(APITestCase):
         self.inventory = BloodInventory.objects.create(blood_type="A+", units_available=10)
 
     def test_update_inventory(self):
-        response = self.client.put(f"/api/inventory/{self.inventory.id}/", {"units_available": 5})
+        response = self.client.put(f"/api/inventory/{self.inventory.id}/", {"blood_type": "A+", "units_available": 5})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.inventory.refresh_from_db()
         self.assertEqual(self.inventory.units_available, 5)
