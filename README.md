@@ -46,15 +46,16 @@ This project is a RESTful API for a Blood Bank Management System, built using Dj
    EMAIL_HOST_USER = 'your-email@gmail.com'
    EMAIL_HOST_PASSWORD = 'your-email-password'
    DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
+
    For local testing only email backend is set up
 
-5. **Apply Migrations**:
+6. **Apply Migrations**:
    python manage.py migrate
 
-6. **Create a superuser for admin access**:
+7. **Create a superuser for admin access**:
    python manage.py createsuperuser
 
-7. **Run the server**:
+8. **Run the server**:
    python manage.py runserver
 
 ## API Endpoints
