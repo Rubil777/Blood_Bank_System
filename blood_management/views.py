@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
 from rest_framework import generics, status, filters
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -88,3 +90,29 @@ class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
     queryset = BloodRequest.objects.all()
     serializer_class = BloodRequestSerializer
     permission_classes = [IsAdminUser]
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', True)
+        instance = self.get_object()
+        
+        # Get the new status from the request data
+        new_status = request.data.get("status")
+
+        # Check if status is being changed to "Fulfilled"
+        if new_status == "Fulfilled" and instance.status != "Fulfilled":
+            # Retrieve corresponding inventory item
+            inventory_item = get_object_or_404(BloodInventory, blood_type=instance.blood_type)
+
+            # Check if enough units are available
+            if inventory_item.units_available < instance.units_requested:
+                raise ValidationError("Not enough units available in inventory to fulfill this request.")
+
+            # Deduct the units requested from inventory
+            inventory_item.units_available -= instance.units_requested
+            inventory_item.save()
+
+            # Run the low inventory check after adjusting inventory
+            check_low_inventory()  # Ensure low inventory is checked
+
+        # Proceed with the update (this will also update the status)
+        return super().update(request, *args, **kwargs)

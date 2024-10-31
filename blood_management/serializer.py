@@ -20,6 +20,10 @@ class BloodRequestSerializer(serializers.ModelSerializer):
         model = BloodRequest
         fields = '__all__'
         read_only_fields = ['status', 'request_date', 'user']
+        
+    blood_type = serializers.CharField(required=False)
+    units_requested = serializers.IntegerField(required=False)
+    status = serializers.ChoiceField(choices=BloodRequest.REQUEST_STATUS)
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
