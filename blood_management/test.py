@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from django.urls import reverse
 from .models import Donor, BloodInventory, BloodRequest
+from django.test import TestCase
 
 class AuthenticationTest(TestCase):
     def setUp(self):
