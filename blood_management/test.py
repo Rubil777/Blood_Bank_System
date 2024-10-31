@@ -1,12 +1,11 @@
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APIClient, APITestCase
 from rest_framework import status
-from django.urls import reverse
 from .models import Donor, BloodInventory, BloodRequest
-from django.test import TestCase
 
-class AuthenticationTest(TestCase):
+# Authentication Tests
+class AuthenticationTest(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.admin_credentials = {"username": "admin", "password": "adminpassword"}
@@ -25,17 +24,15 @@ class AuthenticationTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("access", response.data)
 
-
-class DonorManagementTest(TestCase):
+# Donor Management Tests (Admin Only)
+class DonorManagementTest(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.admin_user = User.objects.create_superuser(username="admin", password="adminpass")
-        #Log in and get the Refresh Token
+        
+        # Authenticate as admin with JWT
         refresh = RefreshToken.for_user(self.admin_user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
-        
-        self.inventory = BloodInventory.objects.create(blood_type="A+", units_available=10)
-        self.client.login(username="admin", password="adminpass")
 
     def test_create_donor(self):
         response = self.client.post("/api/donors/", {
@@ -51,15 +48,17 @@ class DonorManagementTest(TestCase):
         response = self.client.get("/api/donors/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-
-class BloodInventoryTest(TestCase):
+# Blood Inventory Management Tests (Admin Only)
+class BloodInventoryTest(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.admin_user = User.objects.create_superuser(username="admin", password="adminpass")
-
-        #Log in and get the Refresh Token
+        
+        # Authenticate as admin with JWT
+        refresh = RefreshToken.for_user(self.admin_user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
-        self.client.login(username="admin", password="adminpass")
+        
+        # Set up inventory item
         self.inventory = BloodInventory.objects.create(blood_type="A+", units_available=10)
 
     def test_update_inventory(self):
@@ -68,13 +67,16 @@ class BloodInventoryTest(TestCase):
         self.inventory.refresh_from_db()
         self.assertEqual(self.inventory.units_available, 5)
 
-
-class BloodRequestTest(TestCase):
+# Blood Request Management Tests
+class BloodRequestTest(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.admin_user = User.objects.create_superuser(username="admin", password="adminpass")
         self.regular_user = User.objects.create_user(username="user", password="userpass")
-        self.client.login(username="user", password="userpass")
+        
+        # Authenticate as regular user
+        refresh = RefreshToken.for_user(self.regular_user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
 
     def test_create_blood_request(self):
         response = self.client.post("/api/requests/", {
@@ -85,14 +87,16 @@ class BloodRequestTest(TestCase):
         self.assertEqual(response.data["status"], "Pending")
 
     def test_admin_fulfill_request(self):
-        # Create a request as regular user
+        # Create a request as a regular user
         request = BloodRequest.objects.create(
             user=self.regular_user, blood_type="A+", units_requested=2, status="Pending"
         )
         
+        # Re-authenticate as admin for fulfilling the request
+        refresh = RefreshToken.for_user(self.admin_user)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
+        
         # Admin fulfills the request
-        self.client.logout()
-        self.client.login(username="admin", password="adminpass")
         response = self.client.put(f"/api/admin/requests/{request.id}/", {"status": "Fulfilled"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         request.refresh_from_db()
