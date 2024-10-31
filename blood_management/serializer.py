@@ -19,11 +19,11 @@ class BloodRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = BloodRequest
         fields = '__all__'
-        read_only_fields = ['status', 'request_date', 'user']
-        
-    blood_type = serializers.CharField(required=False)
-    units_requested = serializers.IntegerField(required=False)
-    status = serializers.ChoiceField(choices=BloodRequest.REQUEST_STATUS)
+        read_only_fields = ['status', 'request_date', 'user']  # These fields are read-only
+
+    blood_type = serializers.CharField(required=True)  # Ensure required fields
+    units_requested = serializers.IntegerField(required=True)
+    status = serializers.ChoiceField(choices=BloodRequest.REQUEST_STATUS) #not sure
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):

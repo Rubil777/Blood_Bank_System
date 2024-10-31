@@ -94,7 +94,7 @@ class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', True)
         instance = self.get_object()
-        
+
         # Get the new status from the request data
         new_status = request.data.get("status")
 
@@ -114,5 +114,5 @@ class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
             # Run the low inventory check after adjusting inventory
             check_low_inventory()  # Ensure low inventory is checked
 
-        # Proceed with the update (this will also update the status)
+        # Proceed with the update
         return super().update(request, *args, **kwargs)
