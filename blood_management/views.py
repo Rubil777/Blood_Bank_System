@@ -108,5 +108,4 @@ class BloodRequestAdminDetailView(RetrieveUpdateAPIView):
             inventory_item.save()
             check_low_inventory()
 
-        # Perform a full update, removing the partial option
         return super().update(request, *args, **kwargs)
